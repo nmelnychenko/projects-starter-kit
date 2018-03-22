@@ -23,7 +23,7 @@ const sequence = require('run-sequence');
 gulp.task('html', () =>
   // Берем все файлы с расширением html в папке src
   gulp
-    .src('./src/*.html')
+    .src('./src/pages/*.html')
     // обратаываем все include теги через posthtml для инлайн спрайтов
     // если таковые есть
     .pipe(posthtml([include()]))
@@ -43,8 +43,7 @@ gulp.task('html', () =>
 gulp.task('css', () =>
   // Берем только файл styles.scss в папке src, в который все импортируется
   gulp
-    .src('./src/sass/styles.scss')
-    .pipe(plumber())
+    .src('./src/sass/pages/**/index.scss')
     // Проверяем качество кода с помощью stylelint
     .pipe(
       stylelint({
@@ -61,8 +60,6 @@ gulp.task('css', () =>
     .pipe(gulp.dest('./build/css'))
     // Минифицируем css
     .pipe(cssnano())
-    // Переименовываем добавляя .min
-    .pipe(rename('styles.min.css'))
     // Выкидываем минифицированный css в папку build
     .pipe(gulp.dest('./build/css'))
     // Говорим browser-sync о том что пора перезагрузить барузер так как файл изменился
